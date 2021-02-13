@@ -22,9 +22,9 @@ class TestDefaultController(BaseTestCase):
         body.grades = {'math': 8, 'history': 9}
         response = self.client.open(
             '/service-api/student',
-            method='POST',
-            data=json.dumps(body),
-            content_type='application/json')
+            method ='POST',
+            data =json.dumps(body),
+            content_type ='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertTrue(response.is_json)

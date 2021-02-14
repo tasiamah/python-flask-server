@@ -16,8 +16,17 @@ def add_student(body):  # noqa: E501
 
     :rtype: int
     """
+    # try:
+    #     res = connexion.request.is_json.get_json()
+    #     if "first_name" not in res.keys() or "last_name" not in res.keys():
+    #         return 'Full name required', 405
+    # except ValueError:
+    #     'invalid entry', 405
+
     if connexion.request.is_json:
-        body = Student.from_dict(connexion.request.get_json())  # noqa: E501
+        body = Student.from_dict(connexion.request.get_json()) # noqa: E501
+        if body.first_name == None or body.last_name == None:
+            return 'Full name required', 405
     return student_service.add_student(body)
 
 
@@ -49,6 +58,11 @@ def get_student_by_id(student_id, subject=None):  # noqa: E501
 
     :rtype: Student
     """
+    try:
+        student_service.get_student_by_id(student_id, subject=subject)
+        print(student_service.get_student_by_id(student_id, subject=subject))
+    except ValueError:
+        return 'not found', 404
     res = student_service.get_student_by_id(student_id, subject=subject)
     if res:
         return res
